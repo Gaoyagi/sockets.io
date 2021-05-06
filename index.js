@@ -18,12 +18,14 @@ server.listen(3000, () => {
 // event to show a user connection and disconnection
 io.on('connection', (socket) => {
     console.log('a user connected');
+    io.emit('chat message', 'user connected');
     socket.on('disconnect', () => {
       console.log('user disconnected');
+      io.emit('chat message', 'user disconnected');
     });
 });
 
-// logs the message the user typed
+// logs the message the user typed to terminal  
 io.on('connection', (socket) => {
     socket.on('chat message', (msg) => {
       console.log('message: ' + msg);
@@ -39,6 +41,7 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('hi');
 });
 
+// makes messages appear on the html
 io.on('connection', (socket) => {
     socket.on('chat message', (msg) => {
       io.emit('chat message', msg);
